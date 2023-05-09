@@ -185,12 +185,12 @@ Playbooks are sets of instructions that define a series of tasks to be executed 
 ## Set Up Controller Connection
 
 1. Change directory into your ansible default directory. `cd /etc/ansible/`
-
 2. Check what files/folder are in your current directory. `ls`
-3. Open the hosts file with the following command. `sudo nano hosts`
-4. In the file create two seperate groups. One for your web machine and one for your db machine. The syntax is below.
+3. Using the following command we can see the layout of our directory more clearly. `sudo apt install tree` , `tree`
+4. Open the hosts file with the following command. `sudo nano hosts`
+5. In the file create two separate groups. One for your web machine and one for your db machine. The syntax is below.
 
-    - ansible_connection=ssh is used to show how we want to conncect.
+    - ansible_connection=ssh is used to show how we want to connect.
     - ansible_ssh_user=vagrant is to show who the user is.
     - ansible_ssh_pass=vagrant is to tell what the password is.
 
@@ -203,13 +203,146 @@ Playbooks are sets of instructions that define a series of tasks to be executed 
 
     ```
 
-5. To check the connection is working between the controller machine and the web & db machine use the following command. `sudo ansible all -m ping`
+- If we receive any error while adding DB connection we should use command `sudo nano
+ansible.cfg` then add (NEVER DO THIS IN LIVE ENVIRONMENT) `host_key_checking = false`.
 
-- If you want to check the connection between one machine use the commmand `sudo ansible <box-name> -m ping`.
+6. To check the connection is working between the controller machine and the web & db machine use the following command. `sudo ansible all -m ping`
 
-6. Ansible is powerful and to check information about machine use the following command. `sudo ansible all -a "<command>"`
+![ansible_1.png](files%2Fansible_1.png)
+
+- If you want to check the connection between one machine use the command `sudo ansible <box-name> -m ping`.
+
+7. Ansible is powerful and to check information about machine use the following command. `sudo ansible all -a "<command>"`
 
 - If you want to check information for one machine use the following command. `sudo ansible <box-name> -a "<command>"`
+
+## Communicating with different nodes.
+
+1. To check the date within the nodes. `sudo ansible all -a "date"`
+2. To send created file from controller to a specific node we can use this command: 
+`sudo ansible web -m copy -a "src=/etc/ansible/testing.txt dest=/home/vagrant"`
+
+## Creating PlayBook 
+(file containing a set of tasks and plays that define the automation that needs to be performed on a set of hosts)
+
+1. We should start with creating a YAML file. `sudo nano install-nginx-playbook.yml`
+2. Within this file we should add this code:
+
+```commandline
+# Creating a playbook to install nginx in web server 
+
+# YAML file starts ---
+---
+
+# where would you like to install nginx
+- hosts: web
+
+# would you like to see logs
+  gather_facts: yes
+
+# do we need admin access - sudo
+  become: true
+
+# add the instructions - commands
+  tasks:
+  - name: Install nginx in web-server
+
+
+    apt: pkg=nginx state=present
+# ensure status is running/active
+```
+3. To run the PlayBook we can use this command. `sudo ansible-playbook install-nginx-playbook.yml `
+4. To check if nginx is active. `sudo ansible web -a "systemctl status nginx"`
+
+## Creating a PlayBook to run our Sparta Global App.
+
+1. First step is to create YAML file to install all the dependencies to launch the app.`sudo nano install-nodejs-playbook.yml`
+2. Now we should add slightly changed code:
+```commandline
+# YAML file starts ---
+---
+
+# where would you like to install nodejs
+- hosts: web
+
+# would you like to see logs
+  gather_facts: yes
+
+# do we need admin access - sudo
+  become: true
+
+# add the instructions - commands
+  tasks:
+  - name: Install Python in web-server
+    apt: pkg=python state=present
+
+  - name: Install node in web-server
+    apt: pkg=nodejs state=present
+
+  - name: Install npm in web-server
+    apt: pkg=npm state=present
+```
+3. Now in second GitBash terminal navigate to folder where we have a `Vagrant file` and use command to secure copy `app` folder. `scp -r /c/Users/Mateusz/Documents/tech221/virtualisation/app vagrant@192.168.33.10:/home/vagrant`
+4. Now slightly change the already created `install-nodejs-playbook.yml` by adding the following commands:
+
+```commandline
+# start the app
+  - name: Start the application
+    command:
+      chdir: /home/vagrant/app
+      cmd: npm start &
+```
+or you can do it manually by:
+- ssh into web `ssh vagrant@192.168.33.10`
+- navigating to app `cd app`
+- starting the app `node app.js`
+
+![works.png](files%2Fworks.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
