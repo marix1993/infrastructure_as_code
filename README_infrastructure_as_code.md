@@ -325,8 +325,8 @@ or you can do it manually by:
   - name: Install MongoDB required version
     apt: pkg=mongodb state=present
 ```
-3. Run `sudo nano ansible-playbook mongo-db-playbook.yml` to run the script
-4. To check if everything works properly we can type this command: `ansible db -a "sudo systemctl status mongodb"` in controller.
+3. Run `sudo ansible-playbook mongo-db-playbook.yml` to run the script
+4. To check if everything works properly we can type this command: `sudo ansible db -a "systemctl status mongodb"` in controller.
 5. If it doesn't work check if your hosts and YAML file are set up correctly.
 
 
