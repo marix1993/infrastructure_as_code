@@ -299,12 +299,35 @@ or you can do it manually by:
 
 ![works.png](files%2Fworks.png)
 
+## Creating a PlayBook to run MongoDB.
 
+1. First step is to create a YAML file with the command `sudo nano mongo-db-playbook.yml`
+2. Next we need to add the following script inside ou YAML file:
 
+```commandline
+# YAML file starts ---
+---
 
+# where would you like to install db
 
+- hosts: db
+# would you like to see logs
 
+  gather_facts: yes
 
+# do we need admin access
+
+  become: true
+
+# add the instructions
+
+  tasks:
+  - name: Install MongoDB required version
+    apt: pkg=mongodb state=present
+```
+3. Run `sudo nano ansible-playbook mongo-db-playbook.yml` to run the script
+4. To check if everything works properly we can type this command: `ansible db -a "sudo systemctl status mongodb"` in controller.
+5. If it doesn't work check if your hosts and YAML file are set up correctly.
 
 
 
