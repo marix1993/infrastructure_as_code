@@ -329,7 +329,7 @@ or you can do it manually by:
 4. To check if everything works properly we can type this command: `sudo ansible db -a "systemctl status mongodb"` in controller.
 5. If it doesn't work check if your hosts and YAML file are set up correctly.
 
-
+![mongod_running.png](files%2Fmongod_running.png)
 
 
 
