@@ -1,0 +1,15 @@
+.vagrant/machines/controller/virtualbox/action_provision
+.vagrant/machines/controller/virtualbox/action_set_name
+.vagrant/machines/controller/virtualbox/id
+.vagrant/machines/controller/virtualbox/index_uuid
+.vagrant/machines/controller/virtualbox/private_key
+.vagrant/machines/db/virtualbox/action_provision
+.vagrant/machines/db/virtualbox/action_set_name
+.vagrant/machines/db/virtualbox/id
+.vagrant/machines/db/virtualbox/index_uuid
+.vagrant/machines/db/virtualbox/private_key
+.vagrant/machines/web/virtualbox/action_provision
+.vagrant/machines/web/virtualbox/action_set_name
+.vagrant/machines/web/virtualbox/id
+.vagrant/machines/web/virtualbox/index_uuid
+.vagrant/machines/web/virtualbox/private_key
